@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="web.entity.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="in_price" jdbcType="DOUBLE" property="inprice" />
+    <result column="sale_price" jdbcType="DOUBLE" property="saleinprice" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="discription" jdbcType="VARCHAR" property="discription" />
+    <result column="discount" jdbcType="DOUBLE" property="discount" />
+    <result column="product_place" jdbcType="VARCHAR" property="productplace" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="standard" jdbcType="VARCHAR" property="standard" />
+    <result column="sale_num" jdbcType="INTEGER" property="salenum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+     <result column="picture" jdbcType="VARCHAR" property="picture" />
+ 	<association property="type" column="good_type"
+ 		select="web.dao.GoodsTypeMapper.selectByPrimaryKey" ></association>   
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, in_price, sale_price, num, discription, discount, product_place, unit, 
+    standard, sale_num, status, picture, good_type
+  </sql>
+    <select id="getAllGoodswithStatusAs1" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods where status = 1
+  </select>
+  <update id="editGoodsPic" >
+  	update goods set picture = #{param2} where id =#{param1}
+  </update>
+<select id="selectPicture" parameterType="java.lang.Integer"
+			 resultType="java.lang.String">
+    select picture from goods where id = #{id}
+  </select>
+    <select id="selectAllGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+  </select>
+  <select id="getGoodsById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select 
+	<include refid="Base_Column_List" />
+  from goods
+  where id = #{id}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="setGoodsTypeAsNull" parameterType="java.lang.Integer">
+    update goods
+    set 
+      good_type = null
+    where good_type = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="web.entity.Goods">
+    insert into goods (id, name, in_price, 
+      sale_price, num, discription, 
+      discount, product_place, unit, 
+      standard, sale_num, status, 
+      good_type)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{inprice,jdbcType=DOUBLE}, 
+      #{saleinprice,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, #{discription,jdbcType=VARCHAR}, 
+      #{discount,jdbcType=DOUBLE}, #{productplace,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{standard,jdbcType=VARCHAR}, 0, 0, 
+      #{type.id,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="web.entity.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="inprice != null">
+        in_price,
+      </if>
+      <if test="saleinprice != null">
+        sale_price,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="discription != null">
+        discription,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="productplace != null">
+        product_place,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="standard != null">
+        standard,
+      </if>
+      <if test="salenum != null">
+        sale_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="good_type != null">
+        good_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="inprice != null">
+        #{inprice,jdbcType=DOUBLE},
+      </if>
+      <if test="saleinprice != null">
+        #{saleinprice,jdbcType=DOUBLE},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="discription != null">
+        #{discription,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="productplace != null">
+        #{productplace,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null">
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="salenum != null">
+        #{salenum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="good_type != null">
+        #{good_type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="web.entity.Goods">
+    update goods
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="inprice != null">
+        in_price = #{inprice,jdbcType=DOUBLE},
+      </if>
+      <if test="saleinprice != null">
+        sale_price = #{saleinprice,jdbcType=DOUBLE},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="discription != null">
+        discription = #{discription,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="productplace != null">
+        product_place = #{productplace,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null">
+        standard = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="salenum != null">
+        sale_num = #{salenum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="good_type != null">
+        good_type = #{good_type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="web.entity.Goods">
+    update goods
+    set name = #{name,jdbcType=VARCHAR},
+      in_price = #{inprice,jdbcType=DOUBLE},
+      sale_price = #{saleinprice,jdbcType=DOUBLE},
+      num = #{num,jdbcType=INTEGER},
+      discription = #{discription,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DOUBLE},
+      product_place = #{productplace,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      standard = #{standard,jdbcType=VARCHAR},
+      sale_num = #{salenum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      good_type = #{type.id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="goodsUp" parameterType="java.lang.Integer">
+  	update goods
+  	set status = 1
+  	where id = #{id}
+  </update>
+    <update id="goodsDown" parameterType="java.lang.Integer">
+  	update goods
+  	set status = 0
+  	where id = #{id}
+  </update>
+</mapper>
