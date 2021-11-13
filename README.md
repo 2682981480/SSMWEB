@@ -15,9 +15,9 @@
 
 #### 使用说明
 
-1. 有问题直接给我发邮件2682981480@qq.com
-2.  随时都在
-3.  一直都在
+1. if you have question can email to 2682981480@qq.com
+2.  Anytime
+3.  Everywhere
 
 #### 参与贡献
 
